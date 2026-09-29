@@ -1,0 +1,5 @@
+# Nunca versione segredos/URLs reais
+config.local.js
+.env
+.DS_Store
+Thumbs.db

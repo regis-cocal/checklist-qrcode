@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f2530">
+  <meta name="description" content="Checklist de equipamento por QR Code">
+  <title>Checklist de Equipamento</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f2530'/%3E%3Cpath d='M17 20h30v6H17zm0 10h22v6H17zm0 10h30v6H17z' fill='%2376b82a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="orb orb-a" aria-hidden="true"></div>
+  <div class="orb orb-b" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div>
+          <p class="eyebrow">OPERAÇÃO</p>
+          <h1>Checklist de Equipamento</h1>
+        </div>
+      </div>
+      <div class="status-pill" id="apiStatus">
+        <span class="status-dot"></span>
+        <span>Online</span>
+      </div>
+    </header>
+
+    <section class="progress-track" aria-label="Progresso">
+      <div class="progress-step is-active" data-step="1">
+        <span>1</span><small>Identificação</small>
+      </div>
+      <div class="progress-line"><i id="progressLine"></i></div>
+      <div class="progress-step" data-step="2">
+        <span>2</span><small>Checklist</small>
+      </div>
+      <div class="progress-line"><i id="progressLine2"></i></div>
+      <div class="progress-step" data-step="3">
+        <span>3</span><small>Conclusão</small>
+      </div>
+    </section>
+
+    <div id="alert" class="alert" role="alert" aria-live="polite"></div>
+
+    <!-- STEP 1 -->
+    <section class="panel step-panel is-visible" id="step1">
+      <div class="hero-copy">
+        <span class="icon-badge">⌁</span>
+        <p class="kicker">ACESSO RÁPIDO</p>
+        <h2>Quem está realizando o checklist?</h2>
+        <p>Informe sua matrícula. O sistema busca automaticamente seus dados na base de colaboradores.</p>
+      </div>
+
+      <div class="form-card">
+        <label for="matricula">Matrícula</label>
+        <div class="input-wrap">
+          <span class="input-icon">#</span>
+          <input id="matricula" name="matricula" inputmode="numeric" autocomplete="off"
+                 maxlength="20" placeholder="Digite sua matrícula" aria-describedby="matriculaHelp">
+          <button class="clear-btn" id="clearMatricula" type="button" aria-label="Limpar matrícula">×</button>
+        </div>
+        <div class="field-meta">
+          <span id="matriculaHelp">Ex.: 2974100</span>
+          <span id="matriculaCount">0/20</span>
+        </div>
+
+        <button class="primary-btn" id="buscarBtn" type="button">
+          <span class="btn-label">Buscar meus dados</span>
+          <span class="btn-loader" aria-hidden="true"></span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <div class="security-note">
+          <span>◉</span>
+          <span>Seus dados são consultados apenas para preencher este checklist.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section class="panel step-panel" id="step2">
+      <div class="section-heading">
+        <div>
+          <p class="kicker">IDENTIFICAÇÃO CONFIRMADA</p>
+          <h2>Confira seus dados</h2>
+        </div>
+        <button class="ghost-btn" id="backToIdentity" type="button">← Alterar matrícula</button>
+      </div>
+
+      <article class="profile-card">
+        <div class="profile-avatar" id="avatar">CO</div>
+        <div class="profile-main">
+          <h3 id="profileName">—</h3>
+          <p id="profileRole">—</p>
+        </div>
+        <div class="profile-check">✓</div>
+
+        <div class="profile-grid">
+          <div class="profile-item">
+            <span>Matrícula</span>
+            <strong id="profileMatricula">—</strong>
+          </div>
+          <div class="profile-item">
+            <span>Local</span>
+            <strong id="profileLocal">—</strong>
+          </div>
+          <div class="profile-item">
+            <span>Data</span>
+            <strong id="profileDate">—</strong>
+          </div>
+        </div>
+      </article>
+
+      <div class="form-card checklist-card">
+        <div class="field-block">
+          <label for="frota">Frota</label>
+          <div class="input-wrap">
+            <span class="input-icon">▣</span>
+            <input id="frota" name="frota" inputmode="numeric" autocomplete="off" maxlength="20"
+                   placeholder="Informe a frota">
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label>Problema no pneu?</label>
+          <div class="choice-group" role="radiogroup" aria-label="Problema no pneu">
+            <label class="choice-card">
+              <input type="radio" name="problema_pneu" value="Não">
+              <span class="choice-ui">
+                <span class="choice-icon">✓</span>
+                <span>
+                  <strong>Não</strong>
+                  <small>Sem problema identificado</small>
+                </span>
+              </span>
+            </label>
+
+            <label class="choice-card">
+              <input type="radio" name="problema_pneu" value="Sim">
+              <span class="choice-ui">
+                <span class="choice-icon">!</span>
+                <span>
+                  <strong>Sim</strong>
+                  <small>Existe um problema no pneu</small>
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="submit-zone">
+          <div class="submit-copy">
+            <span class="submit-icon">✓</span>
+            <div>
+              <strong>Pronto para enviar?</strong>
+              <span>Revise frota e resposta antes de concluir.</span>
+            </div>
+          </div>
+          <button class="primary-btn" id="gravarBtn" type="button">
+            <span class="btn-label">Enviar checklist</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="panel step-panel success-panel" id="step3">
+      <div class="success-ring">
+        <svg viewBox="0 0 72 72" aria-hidden="true">
+          <circle cx="36" cy="36" r="31"></circle>
+          <path d="M21 37.5 31 47l20-23"></path>
+        </svg>
+      </div>
+      <p class="kicker">REGISTRO CONCLUÍDO</p>
+      <h2>Checklist enviado</h2>
+      <p id="successMessage">O registro foi salvo com sucesso.</p>
+
+      <div class="receipt-card">
+        <div>
+          <span>Frota</span>
+          <strong id="receiptFrota">—</strong>
+        </div>
+        <div>
+          <span>Matrícula</span>
+          <strong id="receiptMatricula">—</strong>
+        </div>
+        <div>
+          <span>Data e hora</span>
+          <strong id="receiptDate">—</strong>
+        </div>
+      </div>
+
+      <button class="secondary-btn" id="novoChecklistBtn" type="button">
+        Fazer outro checklist
+      </button>
+    </section>
+
+    <footer class="footer">
+      <span>Checklist operacional</span>
+      <span class="footer-sep">•</span>
+      <span>Versão 1.0</span>
+    </footer>
+  </main>
+
+  <noscript>
+    <div class="no-js">Este formulário precisa de JavaScript habilitado para funcionar.</div>
+  </noscript>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
